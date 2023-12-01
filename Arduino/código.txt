@@ -1,0 +1,193 @@
+// C++ code
+
+//Chamando biblioteca do lcd
+# include <LiquidCrystal.h>
+
+LiquidCrystal lcd(7, 6, 5, 4, 3, 2);
+
+// variável para digitalRead das horas e minutos
+int buttonHora = 0;
+int buttonMinuto = 0;
+
+// variável para horas, minutos e segundos e pré set das horas
+int h=23;
+int m=59;
+int s=40;
+
+// definindo entrada dos botões para ajustar hora e minuto
+int hset=9;
+int mset=8;
+
+// definindo entrada do buzzer
+int buzzer = 10;
+
+// definindo entrada do ultrassôico
+int echo    = 11;
+int trigger = 12;
+
+//variável para calcular fistância e tempo parado após buzzer tocando
+float dist = 0;
+int tempo = 0;
+
+// setup dos botões, lcd, buzzer e ultrassônico
+void setup()
+{
+Serial.begin(9600);
+
+lcd.begin(16, 2);
+  
+pinMode (buttonHora, INPUT);
+pinMode (buttonMinuto, INPUT);
+
+pinMode (buzzer, OUTPUT);
+  
+pinMode(echo, INPUT);
+pinMode(trigger, OUTPUT);
+
+}
+
+
+void loop()
+{ 
+ lcd.begin(16,2);
+ lcd.setCursor(0,0);
+  
+ // configuração do lcd para aparecer a hora em formato "Hora hh:mm:ss
+ lcd.print("Hora ");
+ if(h<10)lcd.print("0");
+ lcd.print(h);
+ lcd.print(":");
+  
+ if(m<10)lcd.print("0");
+ lcd.print(m);
+ lcd.print(":");
+  
+ if(s<10)lcd.print("0");
+ lcd.print(s);
+ delay(985);
+  
+ //configuração dos botões e condicional para caso apertar o botão, aumentar ou a hora ou o minuto
+ buttonHora=digitalRead(hset);
+ buttonMinuto=digitalRead(mset); 
+
+ if(buttonHora==HIGH){
+   h=h+1;
+ }
+
+ if(buttonMinuto==HIGH){
+  s=0;
+  m=m+1;
+  }
+
+ // lógica de hora, minuto e segundo
+ if(s==60){
+  s=0;
+  m=m+1;
+ }
+ if(m==60)
+ {
+  m=0;
+  h=h+1;
+ }
+ if(h==24)
+ {
+  h=0;
+ }
+ 
+ // soma 1 segundo a cada void loop, sendo 985 milissegundos no delay, 15 milissegundos no ultrassônico
+ s=s+1;
+  
+ // verificando distância no ultrassônico
+  digitalWrite(trigger,LOW);
+  delayMicroseconds(5);
+  digitalWrite(trigger,HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigger,LOW);
+  
+  dist=pulseIn(echo,HIGH);
+  dist = dist/58;
+  Serial.print ("Distancia = ");
+  Serial.print (dist);
+  Serial.print (" cm");
+  Serial.write (10);
+  
+  //seria a condicional para o remédio das 8h, mas foi implementado posteriormente o ultrassônico
+  /*
+  if (h==8 && m==0 && s==1){
+    digitalWrite (buzzer, HIGH);
+    lcd.setCursor(0,1);
+    lcd.print("Hora do remedio");
+    delay(60000);
+    digitalWrite (buzzer, LOW);
+    m=m+1;
+  } 
+  */
+  
+  // condicional para comer, buzzer tocará por 1 minuto
+  if (h==12 && m==0 && s==1){
+    digitalWrite (buzzer, HIGH);
+    lcd.setCursor(0,1);
+    lcd.print("Hora de comer");
+    delay(60000);
+    digitalWrite (buzzer, LOW);
+    m=m+1;
+  } 
+  
+  // condicional para exercício físico, o buzzer tocará por 1 minuto
+  if (h==14 && m==0 && s==1){
+    digitalWrite (buzzer, HIGH);
+    lcd.setCursor(0,1);
+    lcd.print("Hora exercicio");
+    delay(60000);
+    digitalWrite (buzzer, LOW);
+    m=m+1;
+  } 
+  
+  // condicional para fazer teste, buzzer tocará por 1 minuto
+  if (h==18 && m==0 && s==1){
+    digitalWrite (buzzer, HIGH);
+    lcd.setCursor(0,1);
+    lcd.print("Hora do teste");
+    delay(60000);
+    digitalWrite (buzzer, LOW);
+    m=m+1;
+  }
+
+  // condicional para tomar rémedio
+  if (h==8 && m==0 && s==1) {
+    // repetição para ver se remédio foi pego da gaveta
+    while (dist > 50){
+      	digitalWrite(trigger,LOW);
+  		delayMicroseconds(5);
+        digitalWrite(trigger,HIGH);
+        delayMicroseconds(10);
+        digitalWrite(trigger,LOW);
+  
+        dist=pulseIn(echo,HIGH);
+        dist = dist/58;
+        Serial.print ("Distancia = ");
+        Serial.print (dist);
+        Serial.print (" cm");
+        Serial.write (10);
+      
+      
+    	digitalWrite (buzzer, HIGH);
+    	lcd.setCursor(0,1);
+    	lcd.print("Hora do remedio");
+      	delay(985);
+      
+      	// variável para calcular tempo do buzzer ligado
+        tempo = tempo + 1;
+      	
+        if (tempo == 60) {
+	      tempo = 0;
+          m = m + 1;
+        }
+      	
+    }
+    // quando sair da estrutura de repetição, buzzer desliga e soma o tempo parado ao relógio
+    digitalWrite (buzzer, LOW);
+    s = tempo;
+  } 
+  
+}

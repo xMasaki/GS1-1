@@ -1,0 +1,179 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: none;
+
+    list-style: none;
+
+    font-family: Arial, sans-serif;
+
+    box-sizing: border-box;
+    text-decoration: none;
+}
+
+body{ background-color: #1d1f22;}
+
+#page {
+    width: 100%;
+}
+
+nav {
+    margin: 0;
+    width: 100%;
+    background-color: #1d1f22;
+}
+
+.nav-coluna{
+    height: 100px;
+    align-items: center;
+    position: relative;
+    display: grid;
+    grid-template-areas: "col1 col2 col3 col4 col5 ";
+    grid-template-columns: 180px auto auto auto auto ;
+}
+
+.texto-nav {
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    padding: 0 20px;
+    opacity: .8;
+    font-weight: 600;
+}
+
+.texto-global {
+    padding: 0 250px;
+}
+.espaco {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* main */
+
+.sec1 {
+    position: relative;
+    top: 0;
+    left: 0px;
+    width: 100vw;
+    background-color: rgba(255, 255, 255, 0.85);
+
+    display: grid;
+    grid-template-areas: "col1 col2";
+    grid-template-columns: 2fr 1fr;
+}
+
+.sec1-img1{
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.sec1-img2{
+    position: absolute;
+    top: 10vh;
+    left: 37vw;
+
+    width: 60%;
+    height: 60%;
+}
+
+/* Problema & Solução */
+
+/* Demonstração da Solução */
+
+/* Contato */
+
+/* Footer */
+footer {
+    
+    background-color: #1d1f22;
+}
+
+.ul-footer {
+    display: grid;
+    grid-template-areas: "col1 col2 col3";
+    grid-template-columns: 1fr 2fr 1fr;
+}
+li {
+    padding: 10px 0 10px 0;
+}
+.titulo-footer {
+    color: white;
+    font-size: 16px;
+    font-weight: 400;
+    opacity: .8;
+    padding-bottom: 15px;
+}
+
+.texto-foot {
+    color: white;
+    font-size: 11px;
+    opacity: .8;
+    font-weight: 100;
+}
+
+.img-footer {
+    display: flex;
+    padding: 0 auto;
+    opacity: .3; 
+
+    justify-content: center;
+}
+
+
+.form-control {
+    font-size: 18px;
+}
+
+.form-control input[type="text"] {
+    font-size: 15px;
+    border: 1px solid rgb(85, 87, 86);
+    border-radius: 5px;
+    padding: 3px;
+    padding-left: 6px;
+}
+
+.button-visivel {
+    background: rgb(19, 0, 114);
+    color: #fff;
+    font-size: 16px;
+    padding: 9px;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    opacity: .8;
+}
+
+.error {
+    font-size: 15px;
+    color: red;
+    text-align: left;
+    margin-left: 32px;
+}
+
+.d-none {
+    display: none;
+}
+
+.redes-sociais {
+    position: relative;
+    display: grid;
+    
+    grid-template-areas: "col1 col2";
+    grid-template-columns: 1fr 1fr;
+}
+
+.logo-espaco {
+    padding-left: 20px;
+    padding-right: 20px;
+    opacity: .8;
+}
+
+.direitos-reservados {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 40px 20px 40px;
+    background-color: #161719;
+    color: white;
+}
